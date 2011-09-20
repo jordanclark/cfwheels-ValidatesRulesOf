@@ -1,0 +1,47 @@
+	table {
+		border: 1px solid #333;
+		width: 100%;
+	}
+	
+		table caption {
+			font-size: 1.2em;
+			text-align: left;
+		}
+		
+		table thead {}
+		
+			table thead th,
+			table tbody th {
+				text-align: left;
+			}
+			
+			table thead th {
+				border-bottom: 1px solid #ccc;
+			}
+		
+		table tbody {}
+		
+			table tbody tr.highlight {
+				background: #efefef;
+			}
+			
+			table tbody tr td {
+				padding: 5px;
+			}
+			
+				table tbody tr td.required {
+					text-align: center;
+				}
+
+
+/* Base classes */
+
+code.block {
+	border: 1px solid #dedede;
+	border-left: 25px solid #dedede;
+	display: block;
+	overflow: auto;
+	padding: 5px;
+	padding-left: 25px;
+	white-space: pre;
+}
