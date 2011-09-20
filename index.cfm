@@ -85,14 +85,6 @@
 	</tr> 
 
 	<tr class="highlight"> 
-		<td valign="top"><code>stopOnError</code></td> 
-		<td valign="top"><code>boolean</code></td> 
-		<td valign="top" class="required">No</td> 
-		<td valign="top"><code>true</code></td> 
-		<td valign="top">If an error is retuned from a rule, generally you want to stop checking the rest of the rules. If you disable this then a property can return multiple error messages.</td> 
-	</tr> 
-
-	<tr class="highlight"> 
 		<td valign="top"><code>prefixLabel</code></td> 
 		<td valign="top"><code>boolean</code></td> 
 		<td valign="top" class="required">No</td> 

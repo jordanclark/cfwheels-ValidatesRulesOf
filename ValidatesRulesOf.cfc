@@ -10,18 +10,24 @@
 
 
 <cffunction name="$initValidatesRulesOf" mixin="controller" hint="Initializes application variables used in validation.">
-	<cfif NOT structKeyExists( application.wheels.functions, "ValidatesRulesOf" )>
-		<cfset application.wheels.functions.ValidatesRulesOf = {
-			required="true"
-		,	mutable="true"
-		,	autoFix="false"
-		,	defaultOnError="true"
-		,	stopOnError="true"
-		,	prefixLabel="true"
-		,	sentence="true"
-		,	message="is a required field that was skipped"
-		}>
+	<cfset var defaults = {
+		required="true"
+	,	mutable="true"
+	,	autoFix="false"
+	,	defaultOnError="true"
+	,	prefixLabel="true"
+	,	sentence="true"
+	,	message="is a required field that was skipped"
+	}>
+	
+	<cfif structKeyExists( application.wheels.functions, "ValidatesRulesOf" )>
+		<cfset structAppend( application.wheels.functions.ValidatesRulesOf, defaults, false )>
+	<cfelse>
+		<cfset application.wheels.functions.ValidatesRulesOf = defaults>
 	</cfif>
+	
+	<cfset application.wheels.multipleValidationErrors = false>
+	
 	<cfset application.wheels.cacheValidatesRulesOfTemplates = {}>
 </cffunction>
 
@@ -34,11 +40,10 @@
 	<cfargument name="autoFix" type="boolean" required="false">
 	<cfargument name="default" type="any" required="false">
 	<cfargument name="defaultOnError" type="boolean" required="false">
-	<cfargument name="stopOnError" type="boolean" required="false">
 	<cfargument name="prefixLabel" type="boolean" required="false">
 	<cfargument name="sentence" type="boolean" required="false">
+	<cfargument name="message" type="string" required="false">
 	<cfargument name="when" type="string" required="false" default="onSave" hint="See documentation for @validatesConfirmationOf.">
-	<!--- <cfargument name="allowBlank" type="boolean" required="false" hint="See documentation for @validatesExclusionOf."> --->
 	<cfargument name="condition" type="string" required="false" default="" hint="See documentation for @validatesConfirmationOf.">
 	<cfargument name="unless" type="string" required="false" default="" hint="See documentation for @validatesConfirmationOf.">
 	<cfscript>
@@ -46,41 +51,10 @@
 			arguments.condition = arguments[ "if" ];
 			structDelete( arguments, "if" );
 		}
-		arguments.allowBlank = true;
-		arguments.message = "";
-		
 		$args(name="validatesRulesOf", args=arguments);
 		$registerValidation(methods="$validatesRulesOf", argumentCollection=arguments);
 	</cfscript>
 </cffunction>
-
-
-<!--- <cffunction name="$validationRemoveType" mixin="model" returntype="boolean" access="public" output="false" hint="Checks to see if a validation has been created for a property.">
-	<cfargument name="properties" type="string" required="true">
-	<cfargument name="validation" type="string" required="true">
-	<cfscript>
-		var loc = {};
-		loc.returnValue = false;
-		
-		for (loc.when in variables.wheels.class.validations)
-		{
-			if (StructKeyExists(variables.wheels.class.validations, loc.when))
-			{
-				loc.eventArray = variables.wheels.class.validations[loc.when];
-				loc.iEnd = ArrayLen(loc.eventArray);
-				for (loc.i = 1; loc.i lte loc.iEnd; loc.i++)
-				{
-					if (StructKeyExists(loc.eventArray[loc.i].args, "property") && listFindNoCase( arguments.properties, loc.eventArray[loc.i].args.property ) and loc.eventArray[loc.i].method == "$#arguments.validation#")
-					{
-						arrayDeleteAt( variables.wheels.class.validations[loc.when], loc.i );
-					}
-				}
-			}
-		}
-	</cfscript>
-	<cfset console( duplicate( variables.wheels.class.validations ) )>
-	<cfreturn loc.returnValue />
-</cffunction> --->
 
 
 <cffunction name="$validatesRulesOf" mixin="model" returnType="void" access="public" output="false">
@@ -90,7 +64,6 @@
 	<cfargument name="autoFix" type="boolean" required="false">
 	<cfargument name="default" type="any" required="false">
 	<cfargument name="defaultOnError" type="boolean" required="false">
-	<cfargument name="stopOnError" type="boolean" required="false">
 	<cfargument name="prefixLabel" type="boolean" required="false">
 	<cfargument name="sentence" type="boolean" required="false">
 	
@@ -100,7 +73,7 @@
 	<cfif NOT structKeyExists( this, arguments.property ) OR ( isSimpleValue( this[ arguments.property ]) AND NOT len( trim( this[ arguments.property ] ) ) )>
 		<cfif arguments.required>
 			<!--- throw an error and stop processing of further rules --->
-			<cfset arguments.message = "is a required field that was skipped">
+			<!--- <cfset arguments.message = "is a required field that was skipped"> --->
 			<cfset addError( property = arguments.property, message = $validationRulesErrorMessage( argumentCollection = arguments ) )>
 		</cfif>
 		<!--- no value so no reason to run more rules --->
@@ -155,7 +128,7 @@
 		
 		<cfif len( arguments.message )>
 			<cfset addError( property= arguments.property, message= $validationRulesErrorMessage( argumentCollection = arguments ) )>
-			<cfif arguments.stopOnError>
+			<cfif NOT application.wheels.multipleValidationErrors>
 				<!--- end the loop --->
 				<cfbreak>
 			</cfif>
@@ -165,7 +138,7 @@
 </cffunction>
 
 
-<!--- <cffunction name="$validate" returntype="boolean" access="public" output="false" hint="Runs all the validation methods setup on the object and adds errors as it finds them. Returns `true` if no errors were added, `false` otherwise.">
+<cffunction name="$validate" returntype="boolean" access="public" output="false" hint="Runs all the validation methods setup on the object and adds errors as it finds them. Returns `true` if no errors were added, `false` otherwise.">
 	<cfargument name="type" type="string" required="true">
 	<cfargument name="execute" type="boolean" required="false" default="true">
 	<cfscript>
@@ -184,28 +157,28 @@
 			for (loc.i=1; loc.i <= loc.iEnd; loc.i++)
 			{
 				loc.thisValidation = variables.wheels.class.validations[loc.type][loc.i];
-				if ($evaluateCondition(argumentCollection=loc.thisValidation.args))
+				// only run validations if there aren't any existing errors
+				if(application.wheels.multipleValidationErrors OR !arrayLen( errorsOn(loc.thisValidation.args.property) ) )
 				{
-					if (loc.thisValidation.method == "$validatesRulesOf")
+					if ($evaluateCondition(argumentCollection=loc.thisValidation.args))
 					{
-						$invoke(method=loc.thisValidation.method, invokeArgs=loc.thisValidation.args);
-						if( loc.thisValidation.args.required ) {
-							$validationRemoveType( loc.thisValidation.args.property, "validatesPresenceOf" );
-						}
-					}
-					else if (loc.thisValidation.method == "$validatesPresenceOf")
-					{
-						// if the property does not exist or if it's blank we add an error on the object (for all other validation types we call corresponding methods below instead)
-						if (!StructKeyExists(this, loc.thisValidation.args.property) or (IsSimpleValue(this[loc.thisValidation.args.property]) and !Len(Trim(this[loc.thisValidation.args.property]))) or (IsStruct(this[loc.thisValidation.args.property]) and !StructCount(this[loc.thisValidation.args.property])))
-							addError(property=loc.thisValidation.args.property, message=$validationErrorMessage(loc.thisValidation.args.property, loc.thisValidation.args.message));
-					}
-					else
-					{
-						// if the validation set does not allow blank values we can set an error right away, otherwise we call a method to run the actual check
-						if (StructKeyExists(loc.thisValidation.args, "property") && StructKeyExists(loc.thisValidation.args, "allowBlank") && !loc.thisValidation.args.allowBlank && (!StructKeyExists(this, loc.thisValidation.args.property) || !Len(this[loc.thisValidation.args.property])))
-							addError(property=loc.thisValidation.args.property, message=$validationErrorMessage(loc.thisValidation.args.property, loc.thisValidation.args.message));
-						else if (!StructKeyExists(loc.thisValidation.args, "property") || (StructKeyExists(this, loc.thisValidation.args.property) && Len(this[loc.thisValidation.args.property])))
+						if (loc.thisValidation.method == "$validatesRulesOf" OR loc.thisValidation.method == "$validatesPresenceOf")
+						{
 							$invoke(method=loc.thisValidation.method, invokeArgs=loc.thisValidation.args);
+							/*
+							// if the property does not exist or if it's blank we add an error on the object (for all other validation types we call corresponding methods below instead)
+							if (!StructKeyExists(this, loc.thisValidation.args.property) or (IsSimpleValue(this[loc.thisValidation.args.property]) and !Len(Trim(this[loc.thisValidation.args.property]))) or (IsStruct(this[loc.thisValidation.args.property]) and !StructCount(this[loc.thisValidation.args.property])))
+								addError(property=loc.thisValidation.args.property, message=$validationErrorMessage(loc.thisValidation.args.property, loc.thisValidation.args.message));
+							*/
+						}
+						else
+						{
+							// if the validation set does not allow blank values we can set an error right away, otherwise we call a method to run the actual check
+							if (StructKeyExists(loc.thisValidation.args, "property") && StructKeyExists(loc.thisValidation.args, "allowBlank") && !loc.thisValidation.args.allowBlank && (!StructKeyExists(this, loc.thisValidation.args.property) || !Len(this[loc.thisValidation.args.property])))
+								addError(property=loc.thisValidation.args.property, message=$validationErrorMessage(loc.thisValidation.args.property, loc.thisValidation.args.message));
+							else if (!StructKeyExists(loc.thisValidation.args, "property") || (StructKeyExists(this, loc.thisValidation.args.property) && Len(this[loc.thisValidation.args.property])))
+								$invoke(method=loc.thisValidation.method, invokeArgs=loc.thisValidation.args);
+						}
 					}
 				}
 			}
@@ -214,7 +187,7 @@
 		loc.returnValue = !hasErrors();
 	</cfscript>
 	<cfreturn loc.returnValue>
-</cffunction> --->
+</cffunction>
 
 
 <cffunction name="$validationRulesErrorMessage" mixin="model" returntype="string" access="public" output="false" hint="Creates nicer looking error text by humanizing the property name and capitalizing it when appropriate.">
