@@ -103,7 +103,7 @@
 		<cfelse>
 			<cfif fileExists( expandPath( "rules/#loc.rule#.cfm" ) )>
 				<cfset loc.template = "../../rules/#loc.rule#.cfm">
-			<cfelseif fileExists( expandPath( "#application.wheels.pluginPath#/ValidateRules/rules/#loc.rule#.cfm" ) )>
+			<cfelseif fileExists( expandPath( "#application.wheels.pluginPath#/ValidatesRulesOf/rules/#loc.rule#.cfm" ) )>
 				<cfset loc.template = "rules/#loc.rule#.cfm">
 			</cfif>
 			<cfif application.wheels.cacheFileChecking>
