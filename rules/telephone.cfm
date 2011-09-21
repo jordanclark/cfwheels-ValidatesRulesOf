@@ -1,67 +1,9 @@
-<!--- <cfparam name="arguments.exclude" type="boolean" default="true"> --->
+<cfparam name="arguments.telephone" type="string" default="phoneExt">
 <cfparam name="arguments.divider" type="string" default="-">
-<cfparam name="arguments.telephone" type="string" default="phone">
 
-<!--- 
-809 - Anguilla 
-268 - Antigua 
-54 - Argentina 
-61 - Australia 
-43 - Austria 
-32 - Belgium 
-55 - Brazil 
-1 - Canada 
-86 - China 
-506 - Costa Rica 
-45 - Denmark 
-809 - Dominican Republic 
-358 - Finland 
-33 - France 
-49 - Germany 
-30 - Greece 
-1 - Grenada 
-852 - Hong Kong 
-354 - Iceland 
-91 - India 
-353 - Ireland 
-972 - Israel 
-39 - Italy 
-876 - Jamaica 
-81 - Japan 
-352 - Luxembourg 
-52 - Mexico 
-31 - Netherlands 
-64 - New Zealand 
-505 - Nicaragua 
-47 - Norway 
-351 - Portugal 
-65 - Singapore 
-27 - South Africa 
-82 - South Korea 
-34 - Spain 
-46 - Sweden 
-41 - Switzerland 
-44 - United Kingdom 
---->
-
-<!---
-EXCLUDE
-000-000-0000
-111-111-1111
-222-222-2222
-333-333-3333
-444-444-4444
-555-555-5555
-666-666-6666
-777-777-7777
-888-888-8888
-999-999-9999
-123-456-7890
-012-345-6789
-987-654-3210
-098-765-4321
-111-222-3333
---->
+<cfif arguments.autoFix>
+	<cfset arguments.value = phoneFormat( arguments.value )>
+</cfif>
 
 <cfswitch expression="#arguments.telephone#">
 
@@ -101,7 +43,7 @@ EXCLUDE
 		</cfif>
 	</cfcase>
 	
-	<cfcase value="us-phone">
+	<cfcase value="phoneExt">
 		<cfif arguments.autoFix>
 			<cfset arguments.value = reReplaceNoCase( arguments.value, "[^0-9| x#arguments.divider#]", "", "all" )>
 		</cfif>

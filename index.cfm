@@ -6,7 +6,7 @@
 
 <h1>ValidatesRulesOf 0.1</h1>
 
-<p>This plugin adds additional object validation rules to the model layers. There are over 50 built-in validations that can be run, and most have multiple additional arguments. The benefit of using rules validation is you can very easily chain multiple rules to be tested on a single field. Many rules also have the ability to "autoFix" the input, meaning stripping out invalid values or reformatting the data. Error messages are built into the rules, so instead of having 1 generic error message the rule can return a customized error which helps users correct mistakes. You can also easily create your own rules in just a few lines of code to override or agument the built-in validations with your own custom logic or error messages/</p>
+<p>This plugin adds additional object validation rules to the model layers. There are 60 built-in validations that can be run, and most have multiple additional arguments. The benefit of using rules validation is you can very easily chain multiple rules to be tested on a single field. Many rules also have the ability to "autoFix" the input, meaning stripping out invalid values or reformatting the data. Error messages are built into the rules, so instead of having 1 generic error message the rule can return a customized error which helps users correct mistakes. You can also easily create your own rules in just a few lines of code to override or agument the built-in validations with your own custom logic or error messages/</p>
 
 <h2>Notes</h2>
 
@@ -156,7 +156,7 @@
 	</tr> 
 	
 	<tr class="highlight"> 
-		<td valign="top"><code>alphanumeric</code></td> 
+		<td valign="top"><code>alphaNumeric</code></td> 
 		<td valign="top">Yes</td>
 		<td valign="top"><code></code></td> 
 		<td valign="top">Checks the property to be alpha-numeric (A-Z0-9).</td> 
@@ -188,6 +188,34 @@
 		<td valign="top">No</td>
 		<td valign="top"><code>[countryList]</code></td> 
 		<td valign="top">Checks the property matches one of the 2 char 200+ country codes, or specify your own list.</td> 
+	</tr> 
+	
+	<tr class="highlight"> 
+		<td valign="top"><code>creditcardExpiry</code></td> 
+		<td valign="top">No</td>
+		<td valign="top"><code></code></td> 
+		<td valign="top">Checks the property is a date in the future, which is what a valid credit card expiry date should be.</td> 
+	</tr> 
+	
+	<tr class="highlight"> 
+		<td valign="top"><code>creditcardMod9</code></td> 
+		<td valign="top">Yes</td>
+		<td valign="top"><code>ccType</code></td> 
+		<td valign="top">Checks the property matches creditcard Mod9 verification and that the card type matches the number.</td> 
+	</tr> 
+	
+	<tr class="highlight"> 
+		<td valign="top"><code>creditcardNumber</code></td> 
+		<td valign="top">Yes</td>
+		<td valign="top"><code></code></td> 
+		<td valign="top">Checks the property matches creditcard verification using CF isValid().</td> 
+	</tr>  
+	
+	<tr class="highlight"> 
+		<td valign="top"><code>creditcardType</code></td> 
+		<td valign="top">Yes</td>
+		<td valign="top"><code>[cardTypes=3]</code></td> 
+		<td valign="top">Checks the property matches a list of possible credit card types, the types are<br /> 1= <code>m,a,v,d</code><br /> 2= <code>mc,am,vi,ds</code><br /> 3= <code>mc,amex,visa,disc</code><br /> 4= <code>mastercard,amex,visa,discover</code></td> 
 	</tr> 
 	
 	<tr class="highlight"> 
@@ -328,7 +356,7 @@
 		<td valign="top"><code>mssql</code></td> 
 		<td valign="top">No</td>
 		<td valign="top"><code>dataType</code><br /><code>[dataError=normal]</code></td> 
-		<td valign="top">Checks the property against the value ranges that are storeable in SQL Server data types. Supported types are: <code>Decimal, Float, Real, BigInt, Int, SmallInt, TinyInt, Money, SmallMoney, Numeric, Bit, DateTime, SmallDateTime, Text, NText, VarChar, NVarChar, Char, NChar</code></td> 
+		<td valign="top">Checks the property against the value ranges that are storeable in SQL Server data types. Supported types are: <code>Decimal, Float, Real, BigInt, Int, SmallInt, TinyInt, Money, SmallMoney, Numeric, Bit, DateTime, SmallDateTime, Text, NText, VarChar, NVarChar, Char, NChar</code>.</td> 
 	</tr> 
 
 	<tr class="highlight"> 
@@ -418,8 +446,15 @@
 	<tr class="highlight"> 
 		<td valign="top"><code>telephone</code></td> 
 		<td valign="top">Yes</td>
-		<td valign="top"></td> 
-		<td valign="top">Checks the property is a telephone number.</td> 
+		<td valign="top"><code>[telephone=phone]</code><br /><code>[divider=-]</code></td> 
+		<td valign="top">Checks the property is a telephone number, different number formats are:<br /><code>phone</code>= Any number 7-12 digits long<br /><code>phoneExt</code> = 999-999-9999 x9999 (extension is optional)<br />(<code>phoneStrict7</code> = 999-9999<br /><code>phoneStrict10</code> = 999-999-9999<br /></td> 
+	</tr> 
+
+	<tr class="highlight"> 
+		<td valign="top"><code>telephoneFakes</code></td> 
+		<td valign="top">Yes</td>
+		<td valign="top"><code>[telephoneFakes]</code><br /><code>[divider=-]</code></td> 
+		<td valign="top">Checks the property is not an obviously fake telephone number like 000-000-0000, 333-333-3333, 123-456-7890, etc</td> 
 	</tr> 
 
 	<tr class="highlight"> 
@@ -462,6 +497,13 @@
 		<td valign="top">Yes</td>
 		<td valign="top"><code>[zipDivider=-]</code><br /><code>[autoFormat=true]</code></td> 
 		<td valign="top">Checks the property is a US 5 or 9 char zip code. autoFormat strips and reformats the input so it is perfectly consistent.</td> 
+	</tr> 
+
+	<tr class="highlight"> 
+		<td valign="top"><code>zipFakes</code></td> 
+		<td valign="top">Yes</td>
+		<td valign="top"><code>[zipFakes]</code></td> 
+		<td valign="top">Checks the property is not an obviously fake zip code like 11111, 12345, 99999, etc.</td> 
 	</tr> 
 
 	<tr class="highlight"> 
