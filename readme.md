@@ -1,267 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>ColdFusion on Wheels</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="robots" content="noindex,nofollow" />
-	<style>
-	body
-	{
-		padding: 0;
-		margin: 0;
-		background: #ddd;
-	}
-
-	#wrapper
-	{
-		margin: auto;
-		text-align: left;
-		width: 960px;
-		background: #fff;
-		border-left: 3px solid #999;
-		border-right: 3px solid #999;
-		border-bottom: 3px solid #999;
-	}
-
-	#content
-	{
-		background: #fff;
-		padding: 15px;
-		font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-		line-height: 1.5em;
-		font-size: 14px;
-		color: #333;
-	}
-
-	#content h1
-	{
-		font-size: 24px;
-		font-weight: bold;
-		color: #B00701;
-		margin: 10px 0 5px 0;
-	}
-
-	#content h2
-	{
-		font-size: 16px;
-		font-weight: bold;
-		color: #B00701;
-	}
-
-	#content p
-	{
-		margin-bottom: 15px;
-	}
-
-	#content p.small
-	{
-		font-size: 11px;
-	}
-
-	#content a
-	{
-		color: #B00701;
-		text-decoration: underline;
-		padding: 0 1px;
-	}
-
-	#content a:hover
-	{
-		color: #fff;
-		background: #B00701;
-		text-decoration: none;
-	}
-
-	#content ul, #content ol
-	{
-		margin: 10px 0 15px 25px;
-		padding: 0;
-	}
-
-	#content ul li, #content ol li
-	{
-		padding-bottom: 0;
-		
-	}
-
-	#content img
-	{
-		border: none;
-	}
-
-	#content pre
-	{
-		border: 1px solid #a6a2a2;
-		overflow-x: auto;
-		width: 95%;
-		padding: 15px;
-		margin-bottom: 15px;
-		background: #ffffe0;
-	}
-
-	#content code
-	{
-		color: #000;
-		font-family: Courier;
-	}
-
-	#content tt
-	{
-		font-family: Courier;
-		font-size: 12px;
-		color: #666;
-		background: #f7f7f7;
-		padding: 1px 3px;
-		border: 1px solid #ededed;
-	}
-	
-	#logo
-	{
-		float: right;
-		font-weight: bold;
-		margin: 0 0 20px 20px;
-		text-transform: uppercase;
-		width: 75px;
-	}
-
-	#logo a
-	{
-		color: #fff;
-		display: block;
-		text-decoration: none;
-	}
-
-	#logo #cf a:first-letter, #logo #wheels a:first-letter
-	{
-		font-size: 125%;
-	}
-
-	#logo #cf a
-	{
-		background: #900;
-		font-size: 35px;
-		line-height: 35px;
-		padding: 18px 0 16px 0;
-		text-align: center;
-	}
-
-	#logo #wheels a
-	{
-		background: #333;
-		padding: 3px 0;
-		text-align: center;
-	}
-	</style>
-</head>
-<body>
-	<div id="wrapper">
-		<div id="content">
-			<div id="logo">
-				<div id="cf"><a href="http://cfwheels.org/">CF</a></div>
-				<div id="wheels"><a href="http://cfwheels.org/">Wheels</a></div>
-			</div> 
-
-
-
-<style>
-
-	table {
-
-		border: 1px solid #333;
-
-		width: 100%;
-
-	}
-
-	
-
-		table caption {
-
-			font-size: 1.2em;
-
-			text-align: left;
-
-		}
-
-		
-
-		table thead {}
-
-		
-
-			table thead th,
-
-			table tbody th {
-
-				text-align: left;
-
-			}
-
-			
-
-			table thead th {
-
-				border-bottom: 1px solid #ccc;
-
-			}
-
-		
-
-		table tbody {}
-
-		
-
-			table tbody tr.highlight {
-
-				background: #efefef;
-
-			}
-
-			
-
-			table tbody tr td {
-
-				padding: 5px;
-
-			}
-
-			
-
-				table tbody tr td.required {
-
-					text-align: center;
-
-				}
-
-
-
-
-
-/* Base classes */
-
-
-
-code.block {
-
-	border: 1px solid #dedede;
-
-	border-left: 25px solid #dedede;
-
-	display: block;
-
-	overflow: auto;
-
-	padding: 5px;
-
-	padding-left: 25px;
-
-	white-space: pre;
-
-}
-
-</style>
-
-
 
 <h1>ValidatesRulesOf 0.2</h1>
 
@@ -311,7 +47,7 @@ code.block {
 
 		<td valign="top" class="required">No</td> 
 
-		<td valign="top"><code></code></td> 
+		<td valign="top"></td> 
 
 		<td valign="top">  Name of property or list of property names to validate against (can also be called with the <code>property</code> argument).</td> 
 
@@ -327,7 +63,7 @@ code.block {
 
 		<td valign="top" class="required">No</td> 
 
-		<td valign="top"><code></code></td> 
+		<td valign="top"></td> 
 
 		<td valign="top">  List of rules to validate each property against.</td> 
 
@@ -391,7 +127,7 @@ code.block {
 
 		<td valign="top" class="required">No</td> 
 
-		<td valign="top"><code></code></td> 
+		<td valign="top"></td> 
 
 		<td valign="top">If no value is provided then the property is updated to this default value if the property is <code>mutable</code>.</td> 
 
@@ -475,7 +211,7 @@ code.block {
 
 		<td valign="top" class="required">No</td> 
 
-		<td valign="top"><code></code></td> 
+		<td valign="top"></td> 
 
 		<td valign="top">  String expression to be evaluated that decides if validation will be run (if the expression returns <code>true</code> validation will run).</td> 
 
@@ -491,7 +227,7 @@ code.block {
 
 		<td valign="top" class="required">No</td> 
 
-		<td valign="top"><code></code></td> 
+		<td valign="top"></td> 
 
 		<td valign="top">  String expression to be evaluated that decides if validation will be run (if the expression returns <code>false</code> validation will run).</td> 
 
@@ -539,7 +275,7 @@ code.block {
 
 		<td valign="top">Yes</td>
 
-		<td valign="top"><code></code></td> 
+		<td valign="top"></td> 
 
 		<td valign="top">Checks the property to be alpha (A-Z).</td> 
 
@@ -553,7 +289,7 @@ code.block {
 
 		<td valign="top">Yes</td>
 
-		<td valign="top"><code></code></td> 
+		<td valign="top"></td> 
 
 		<td valign="top">Checks the property to be alpha-numeric (A-Z0-9).</td> 
 
@@ -623,7 +359,7 @@ code.block {
 
 		<td valign="top">No</td>
 
-		<td valign="top"><code></code></td> 
+		<td valign="top"></td> 
 
 		<td valign="top">Checks the property is a date in the future, which is what a valid credit card expiry date should be.</td> 
 
@@ -651,7 +387,7 @@ code.block {
 
 		<td valign="top">Yes</td>
 
-		<td valign="top"><code></code></td> 
+		<td valign="top"></td> 
 
 		<td valign="top">Checks the property matches creditcard verification using CF isValid().</td> 
 
