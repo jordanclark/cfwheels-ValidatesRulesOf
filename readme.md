@@ -1,5 +1,5 @@
 
-<h1>ValidatesRulesOf 0.2</h1>
+<h1>ValidatesRulesOf 0.3</h1>
 
 
 
@@ -1281,7 +1281,7 @@ If you make a good generic validation rule (or improve the ones included) please
 
 <p>
 
-To uninstall this plugin, simply delete the /plugins/ValidatesRulesOf-0.2.zip file.
+To uninstall this plugin, simply delete the /plugins/ValidatesRulesOf-0.3.zip file.
 
 </p>
 
