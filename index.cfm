@@ -8,18 +8,6 @@
 
 <p>This plugin adds additional object validation rules to the model layers. There are 60 built-in validations that can be run, and most have multiple additional arguments. The benefit of using rules validation is you can very easily chain multiple rules to be tested on a single field. Many rules also have the ability to "autoFix" the input, meaning stripping out invalid values or reformatting the data. Error messages are built into the rules, so instead of having 1 generic error message the rule can return a customized error which helps users correct mistakes. You can also easily create your own rules in just a few lines of code to override or augment the built-in validations with your own custom logic or error messages/</p>
 
-<h2>Notes</h2>
-
-<p>Built-in rules are stored in the <code>/plugins/ValidatesRulesOf/rules/</code> folder, your own customized rules can be stored in <code>/rules/</code> (on the same level as <code>/models/</code> or <code>/views/</code>).</p>
-
-<h2>This plugin changes all validation methods behaviour</h2>
-<p>
-	The validation of required="true" is very similar to <code>validatesPresenceOf</code> that is built into wheels and can't easily be disabled.
-	Instead I've changed validation routines to only return 1 error message per property, I don't think more are useful to users.<br />
-	To go back to the original behaviour change this setting in <code>/config/settings.cfm</code>:
-	<code class="block">&lt;cfset set( multipleValidationErrors=true )&gt;</code>
-</p>
-
 <h2>Function Syntax</h2> 
 <p><code> ValidatesRulesOf([ <em>properties</em>, <em>rules</em>, <em>required</em>, <em>mutable</em>, <em>autoFix</em>, <em>default</em>, <em>defaultOnError</em>, <em>multiple</em>, <em>prefixLabel</em>, <em>sentence</em>, <em>when</em>, <em>condition</em>, <em>unless</em> ])</code></p> 
  
@@ -143,8 +131,9 @@
 </tbody> 
 </table> 
 
+<br />
 
-<h2>Rules</h2> 
+<h2>Validation Rules</h2> 
 <table> 
 <thead> 
 	<tr> 
@@ -600,6 +589,25 @@
 
 <br />
 
+<h2>Notes</h2>
+
+<p>Built-in rules are stored in the <code>/plugins/ValidatesRulesOf/rules/</code> folder, your own customized rules can be stored in <code>/rules/</code> (on the same level as <code>/models/</code> or <code>/views/</code>).</p>
+<p>
+	For kicks this plugin also replaces <code>validatesLengthOf</code> validation so it can return much better error messages.
+</p>
+
+<br />
+
+<h2>This plugin changes all validation methods behaviour</h2>
+<p>
+	The validation of required="true" is very similar to <code>validatesPresenceOf</code> that is built into wheels and can't easily be disabled.
+	Instead I've changed validation routines to only return 1 error message per property, I don't think more are useful to users.<br />
+	To go back to the original behaviour change this setting in <code>/config/settings.cfm</code>:
+	<code class="block">&lt;cfset set( multipleValidationErrors=true )&gt;</code>
+</p>
+
+<br />
+
 <h2>Configuration:</h2>
 
 <p>You can specify default values for validation, if not provided the defaults will be:</p>
@@ -619,6 +627,8 @@
 }&gt;
 </pre>
 
+<br />
+
 <h2>Usage Example:</h2>
 
 <pre>
@@ -629,6 +639,8 @@
 &lt;cfset validatesRulesOf(property="age",rules="integer,range",range="14-100",rangeType="years")&gt;
 &lt;cfset validatesRulesOf(property="comment",rules="length,wordCount,htmlStrict",max=1000,wordCount=200)&gt;
 </pre>
+
+<br />
 
 <h2>Uninstallation:</h2>
 <p>
