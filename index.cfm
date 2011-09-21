@@ -589,6 +589,13 @@
 
 <br />
 
+<h2>Contribute!</h2>
+<p>
+If you make a good generic validation rule (or improve the ones included) please submit it to me to include in this plugin, send it to me on github or email it to me: jordanclark AT gmail.com
+</p>
+
+<br />
+
 <h2>Notes</h2>
 
 <p>Built-in rules are stored in the <code>/plugins/ValidatesRulesOf/rules/</code> folder, your own customized rules can be stored in <code>/rules/</code> (on the same level as <code>/models/</code> or <code>/views/</code>).</p>
@@ -649,7 +656,7 @@ To uninstall this plugin, simply delete the /plugins/ValidatesRulesOf-0.2.zip fi
 
 <h2>Credits</h2>
 <p>
-	This plugin was created by <a href="http://www.imagineer.ca/">Jordan Clark</a>
+	This plugin was created by <a href="mailto:jordanclark AT gmail.com">Jordan Clark</a>
 </p>
 <p>
 	To submit an issue or fork this plugin, visit the
