@@ -6,7 +6,7 @@
 
 <h1>ValidatesRulesOf 0.2</h1>
 
-<p>This plugin adds additional object validation rules to the model layers. There are 60 built-in validations that can be run, and most have multiple additional arguments. The benefit of using rules validation is you can very easily chain multiple rules to be tested on a single field. Many rules also have the ability to "autoFix" the input, meaning stripping out invalid values or reformatting the data. Error messages are built into the rules, so instead of having 1 generic error message the rule can return a customized error which helps users correct mistakes. You can also easily create your own rules in just a few lines of code to override or agument the built-in validations with your own custom logic or error messages/</p>
+<p>This plugin adds additional object validation rules to the model layers. There are 60 built-in validations that can be run, and most have multiple additional arguments. The benefit of using rules validation is you can very easily chain multiple rules to be tested on a single field. Many rules also have the ability to "autoFix" the input, meaning stripping out invalid values or reformatting the data. Error messages are built into the rules, so instead of having 1 generic error message the rule can return a customized error which helps users correct mistakes. You can also easily create your own rules in just a few lines of code to override or augment the built-in validations with your own custom logic or error messages/</p>
 
 <h2>Notes</h2>
 
