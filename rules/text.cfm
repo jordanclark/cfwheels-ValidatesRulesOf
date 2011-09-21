@@ -3,7 +3,7 @@
 </cfif>
 
 <cfif reFind( "[^[:print:]]", arguments.value )>
-	<cfif attributes.mutable AND NOT attributes.autoFix>
+	<cfif arguments.mutable AND NOT arguments.autoFix>
 		<cfset arguments.value = reReplace( arguments.value, "[^[:print:]]", "", "all" )>
 	</cfif>
 	<cfset arguments.message = "can only contain normal printable characters">

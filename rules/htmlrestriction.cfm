@@ -7,7 +7,7 @@
 </cfif>
 
 <cfif len( arguments.value ) AND ( find( "<", arguments.value ) OR find( ">", arguments.value ) )>
-	<cfif attributes.mutable AND NOT attributes.autoFix>
+	<cfif arguments.mutable AND NOT arguments.autoFix>
 		<cfset arguments.value = htmlEditFormat( arguments.value )>
 		<cfset arguments.value = reReplaceNoCase( arguments.value, "&lt;(/?)(#arguments.htmlTagsRegex#)([^(&gt;)]*)&gt;", "<\1\2\3>", "all" )>
 	</cfif>

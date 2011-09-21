@@ -6,7 +6,7 @@
 </cfif>
 
 <cfif NOT reFindNoCase( "^[a-ceghj-npr-tvxy][0-9][a-ceghj-npr-tv-z]#arguments.postalDivider#[0-9][a-ceghj-npr-tv-z][0-9]$", arguments.value )>
-	<cfif attributes.mutable AND NOT attributes.autoFix>
+	<cfif arguments.mutable AND NOT arguments.autoFix>
 		<cfset arguments.value = reReplaceNoCase( arguments.value, "[^a-z0-9#arguments.postalDivider#]", "", "all" )>
 	</cfif>
 	<cfset arguments.message = "is not valid, they must be in the ""X0X#arguments.postalDivider#0X0"" format">

@@ -3,7 +3,7 @@
 </cfif>
 
 <cfif NOT reFind( "^[0-9]{12}$", arguments.value )>
-	<cfif attributes.mutable AND NOT attributes.autoFix>
+	<cfif arguments.mutable AND NOT arguments.autoFix>
 		<cfset arguments.value = left( trim( reReplace( arguments.value, "[^0-9]", "", "all" ) ), 12 )>
 	</cfif>
 	<cfset arguments.message = "is not a valid UPC code">

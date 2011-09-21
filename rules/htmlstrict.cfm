@@ -1,10 +1,10 @@
-<cfif attributes.autoFix>
-	<cfset attributes.value = reReplace( attributes.value, "<[/!]?[^>]*>", "", "all" )>
-	<cfset attributes.value = htmlEditFormat( attributes.value )>
+<cfif arguments.autoFix>
+	<cfset arguments.value = reReplace( arguments.value, "<[/!]?[^>]*>", "", "all" )>
+	<cfset arguments.value = htmlEditFormat( arguments.value )>
 </cfif>
 	
 <cfif reFindNoCase( "<[!/]?[a-z]*[0-9]?.*>", arguments.value )>
-	<cfif attributes.mutable AND NOT attributes.autoFix>
+	<cfif arguments.mutable AND NOT arguments.autoFix>
 		<cfset arguments.value = reReplace( arguments.value, "<[/!]?[^>]*>", "", "all" )>
 		<cfset arguments.value = htmlEditFormat( arguments.value )>
 	</cfif>

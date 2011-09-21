@@ -3,7 +3,7 @@
 </cfif>
 
 <cfif NOT reFind( "^[0-9]{9,12}[0-9X]?$", arguments.value )>
-	<cfif attributes.mutable AND NOT attributes.autoFix>
+	<cfif arguments.mutable AND NOT arguments.autoFix>
 		<cfset arguments.value = left( reReplace( arguments.value, "[^0-9X]", "", "all" ), 13 )>
 	</cfif>
 	<cfset arguments.message = "is not a valid ISBN code">
