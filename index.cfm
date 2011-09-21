@@ -600,7 +600,7 @@ If you make a good generic validation rule (or improve the ones included) please
 
 <p>Built-in rules are stored in the <code>/plugins/ValidatesRulesOf/rules/</code> folder, your own customized rules can be stored in <code>/rules/</code> (on the same level as <code>/models/</code> or <code>/views/</code>).</p>
 <p>
-	For kicks this plugin also replaces <code>validatesLengthOf</code> validation so it can return much better error messages.
+	For kicks this plugin also replaces <code>validatesLengthOf</code> validation so it can return much better error messages, and improves <code>validatesUniquenessOf</code> to be more efficient.
 </p>
 
 <br />

@@ -1179,7 +1179,7 @@ If you make a good generic validation rule (or improve the ones included) please
 
 <p>
 
-	For kicks this plugin also replaces <code>validatesLengthOf</code> validation so it can return much better error messages.
+	For kicks this plugin also replaces <code>validatesLengthOf</code> validation so it can return much better error messages, and improves <code>validatesUniquenessOf</code> to be more efficient.
 
 </p>
 
@@ -1310,11 +1310,3 @@ To uninstall this plugin, simply delete the /plugins/ValidatesRulesOf-0.2.zip fi
 <h2>Disclaimer</h2>
 
 <p>Remember that you use this at your own risk and I'm not responsible for anything. Please don't sue me :)</p>
-
-		</div>
-
-	</div>
-
-</body>
-
-</html> 
