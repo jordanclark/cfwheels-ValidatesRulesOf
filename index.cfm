@@ -4,13 +4,21 @@
 <cfinclude template="base.css">
 </style>
 
-<h1>ValidatesRulesOf 0.1</h1>
+<h1>ValidatesRulesOf 0.2</h1>
 
 <p>This plugin adds additional object validation rules to the model layers. There are 60 built-in validations that can be run, and most have multiple additional arguments. The benefit of using rules validation is you can very easily chain multiple rules to be tested on a single field. Many rules also have the ability to "autoFix" the input, meaning stripping out invalid values or reformatting the data. Error messages are built into the rules, so instead of having 1 generic error message the rule can return a customized error which helps users correct mistakes. You can also easily create your own rules in just a few lines of code to override or agument the built-in validations with your own custom logic or error messages/</p>
 
 <h2>Notes</h2>
 
 <p>Built-in rules are stored in the <code>/plugins/ValidatesRulesOf/rules/</code> folder, your own customized rules can be stored in <code>/rules/</code> (on the same level as <code>/models/</code> or <code>/views/</code>).</p>
+
+<h2>This plugin changes all validation methods behaviour</h2>
+<p>
+	The validation of required="true" is very similar to <code>validatesPresenceOf</code> that is built into wheels and can't easily be disabled.
+	Instead I've changed validation routines to only return 1 error message per property, I don't think more are useful to users.<br />
+	To go back to the original behaviour change this setting in <code>/config/settings.cfm</code>:
+	<code class="block">&lt;cfset set( multipleValidationErrors=true )&gt;</code>
+</p>
 
 <h2>Function Syntax</h2> 
 <p><code> ValidatesRulesOf([ <em>properties</em>, <em>rules</em>, <em>required</em>, <em>mutable</em>, <em>autoFix</em>, <em>default</em>, <em>defaultOnError</em>, <em>multiple</em>, <em>prefixLabel</em>, <em>sentence</em>, <em>when</em>, <em>condition</em>, <em>unless</em> ])</code></p> 
@@ -624,7 +632,7 @@
 
 <h2>Uninstallation:</h2>
 <p>
-To uninstall this plugin, simply delete the /plugins/ValidatesRulesOf-0.1.zip file.
+To uninstall this plugin, simply delete the /plugins/ValidatesRulesOf-0.2.zip file.
 </p>
 
 <h2>Credits</h2>
