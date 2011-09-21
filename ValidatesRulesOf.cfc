@@ -98,7 +98,7 @@
 		
 		<cfset loc.template = "">
 		
-		<cfif application.wheels.cacheFileChecking AND structKeyExists( application.wheels.cacheValidateRulesTemplates, loc.rule )>
+		<cfif application.wheels.cacheFileChecking AND structKeyExists( application.wheels.cacheValidatesRulesOfTemplates, loc.rule )>
 			<cfset loc.template = application.wheels.cacheValidateRulesTemplates[ loc.rule ]>
 		<cfelse>
 			<cfif fileExists( expandPath( "rules/#loc.rule#.cfm" ) )>
@@ -107,7 +107,7 @@
 				<cfset loc.template = "rules/#loc.rule#.cfm">
 			</cfif>
 			<cfif application.wheels.cacheFileChecking>
-				<cfset application.wheels.cacheValidateRulesTemplates[ loc.rule ] = loc.template>
+				<cfset application.wheels.cacheValidatesRulesOfTemplates[ loc.rule ] = loc.template>
 			</cfif>
 		</cfif>
 		
