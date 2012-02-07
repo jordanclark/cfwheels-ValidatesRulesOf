@@ -3,6 +3,9 @@
 
 <cfif arguments.autoFix>
 	<cfset arguments.value = reReplaceNoCase( arguments.value, "[^a-z0-9#arguments.postalDivider#]", "", "all" )>
+	<cfif arguments.autoFormat>
+		<cfset arguments.value = uCase( left( arguments.value, 3 ) & arguments.postalDivider & right( arguments.value, 3 ) )>
+	</cfif>
 </cfif>
 
 <cfif NOT reFindNoCase( "^[a-ceghj-npr-tvxy][0-9][a-ceghj-npr-tv-z]#arguments.postalDivider#[0-9][a-ceghj-npr-tv-z][0-9]$", arguments.value )>
