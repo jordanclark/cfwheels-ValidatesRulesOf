@@ -3,7 +3,7 @@
 <cfset $initValidatesRulesOf()>
 
 <cffunction name="init">
-	<cfset this.version = "1.1.5">
+	<cfset this.version = "1.1.5,1.1.7">
 	
 	<cfreturn this>
 </cffunction>
@@ -70,7 +70,7 @@
 	<cfset var loc = {}>
 	
 	<!--- give the variable a default if it doesn't exist or if its null --->
-	<cfif NOT structKeyExists( this, arguments.property ) OR ( isSimpleValue( this[ arguments.property ]) AND NOT len( trim( this[ arguments.property ] ) ) )>
+	<cfif NOT structKeyExists( this, arguments.property ) OR ( isSimpleValue( this[ arguments.property ] ) AND NOT len( trim( this[ arguments.property ] ) ) )>
 		<cfif arguments.required>
 			<!--- throw an error and stop processing of further rules --->
 			<!--- <cfset arguments.message = "is a required field that was skipped"> --->
@@ -81,17 +81,16 @@
 		<cfif arguments.mutable AND structKeyExists( arguments, "default" )>
 			<cfset this[ arguments.property ] = arguments.default>
 		</cfif>
-	</cfif>
-	
-	<cfif NOT arguments.mutable>
-		<cfset arguments.autoFix = false>
-	</cfif>
-	
-	<cfset arguments.message = "">
-	<cfset arguments.value = this[ arguments.property ]>
-	
-	<cfif arguments.mutable AND isSimpleValue( arguments.value )>
-		<cfset arguments.value = trim( arguments.value )>
+	<cfelse>
+		<cfset arguments.message = "">
+		<cfset arguments.value = this[ arguments.property ]>
+		<cfif NOT arguments.mutable>
+			<cfset arguments.autoFix = false>
+		</cfif>
+		<!--- if the value can be changed, trim spaces they're never useful --->
+		<cfif arguments.mutable AND isSimpleValue( arguments.value )>
+			<cfset arguments.value = trim( arguments.value )>
+		</cfif>
 	</cfif>
 	
 	<cfloop index="loc.rule" list="#lCase( arguments.rules )#" delimiters=",">
@@ -99,7 +98,7 @@
 		<cfset loc.template = "">
 		
 		<cfif application.wheels.cacheFileChecking AND structKeyExists( application.wheels.cacheValidatesRulesOfTemplates, loc.rule )>
-			<cfset loc.template = application.wheels.cacheValidateRulesTemplates[ loc.rule ]>
+			<cfset loc.template = application.wheels.cacheValidatesRulesOfTemplates[ loc.rule ]>
 		<cfelse>
 			<cfif fileExists( expandPath( "rules/#loc.rule#.cfm" ) )>
 				<cfset loc.template = "../../rules/#loc.rule#.cfm">
