@@ -28,7 +28,7 @@
 		</cfcase>
 		<cfdefaultcase>
 			<cfset arguments.message = "must be within #arguments.rangeStart# #arguments.rangeType# to #arguments.rangeEnd# #arguments.rangeType#">
-		</cfdefaultcase?
+		</cfdefaultcase>
 	</cfswitch>
 </cfif>
 

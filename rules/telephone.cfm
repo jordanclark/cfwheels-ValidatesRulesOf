@@ -2,7 +2,39 @@
 <cfparam name="arguments.divider" type="string" default="-">
 
 <cfif arguments.autoFix>
-	<cfset arguments.value = phoneFormat( arguments.value )>
+	<cfset arguments.tmpExt = "">
+	<cfset arguments.tmp = arguments.value>
+	
+	<!--- Replace all non-numeric characters from the string --->
+	<cfif listLen( arguments.tmp, "ext" ) GT 1>
+		<cfset arguments.tmpExt = reReplace( listLast( arguments.tmp, "ext" ), "[^0-9]", "", "all" )>
+		<cfset arguments.tmp = listFirst( arguments.tmp, "ext" )>
+	</cfif>
+	<cfset arguments.tmp = reReplaceNoCase( arguments.tmp, "[^0-9]", "", "all" )>
+	
+	<cfswitch expression="#len( arguments.tmp )#">
+		<cfcase value="7"><!--- XXX-XXXX --->
+			<cfset arguments.tmp = left( arguments.tmp, 3 ) & "-" & right( arguments.tmp, 4 )>
+		</cfcase>
+		<cfcase value="10"><!--- XXX-XXX-XXXX --->
+			<cfset arguments.tmp = left( arguments.tmp, 3 ) & "-" & mid( arguments.tmp, 4, 3 ) & "-" & right( arguments.tmp, 4 )>
+		</cfcase>
+		<!--- <cfcase value="10"><!--- (XXX) XXX-XXXX --->
+			<cfset arguments.tmp = "(" & left( arguments.tmp, 3 ) & ") " & mid( arguments.tmp, 4, 3 ) & "-" & right( arguments.tmp, 4 )>
+		</cfcase> --->
+		<cfcase value="11"><!--- X-XXX-XXX-XXXX --->
+			<cfset arguments.tmp = left( arguments.tmp, 1 ) & "-" & mid( arguments.tmp, 2, 3 ) & "-" & mid( arguments.tmp, 5, 3 ) & "-" & right( arguments.tmp, 4 )>
+		</cfcase>
+		<cfdefaultcase><!--- return a default value instead --->
+			<cfset arguments.tmp = arguments.value>
+		</cfdefaultcase>
+	</cfswitch>
+	
+	<cfif len( arguments.tmpExt )>
+		<cfset arguments.tmp = arguments.tmp & " x" & arguments.tmpExt>
+	</cfif>
+	
+	<cfset arguments.value = arguments.tmp>
 </cfif>
 
 <cfswitch expression="#arguments.telephone#">
@@ -56,47 +88,3 @@
 	</cfcase>
 	
 </cfswitch>
-
-
-<cffunction name="phoneFormat" output="false" returnType="string">
-	<cfargument name="sPhoneNumber" type="string" required="true">
-	<cfargument name="sDefaultValue" type="string" default="">
-	
-	<cfset var sExt = "">
-	<cfset var sOutput = sPhoneNumber>
-	
-	<!--- Replace all non-numeric characters from the string --->
-	<cfif listLen( sOutput, "ext" ) GT 1>
-		<cfset sExt = reReplace( listLast( sOutput, "ext" ), "[^0-9]", "", "all" )>
-		<cfset sOutput = listFirst( sOutput, "ext" )>
-	</cfif>
-	<cfset sOutput = reReplaceNoCase( sOutput, "[^0-9]", "", "all" )>
-	
-	<cfswitch expression="#len( sOutput )#">
-		<cfcase value="7"><!--- XXX-XXXX --->
-			<cfset sOutput = left( sOutput, 3 ) & "-" & right( sOutput, 4 )>
-		</cfcase>
-		<cfcase value="10"><!--- XXX-XXX-XXXX --->
-			<cfset sOutput = left( sOutput, 3 ) & "-" & mid( sOutput, 4, 3 ) & "-" & right( sOutput, 4 )>
-		</cfcase>
-		<!--- <cfcase value="10"><!--- (XXX) XXX-XXXX --->
-			<cfset sOutput = "(" & left( sOutput, 3 ) & ") " & mid( sOutput, 4, 3 ) & "-" & right( sOutput, 4 )>
-		</cfcase> --->
-		<cfcase value="11"><!--- X-XXX-XXX-XXXX --->
-			<cfset sOutput = left( sOutput, 1 ) & "-" & mid( sOutput, 2, 3 ) & "-" & mid( sOutput, 5, 3 ) & "-" & right( sOutput, 4 )>
-		</cfcase>
-		<cfdefaultcase><!--- return a default value instead --->
-			<cfif len( sDefaultValue )>
-				<cfset sOutput = sDefaultValue>
-			<cfelse>
-				<cfset sOutput = sPhoneNumber>
-			</cfif>
-		</cfdefaultcase>
-	</cfswitch>
-	
-	<cfif len( sExt )>
-		<cfset sOutput = sOutput & " x" & sExt>
-	</cfif>
-	
-	<cfreturn sOutput>
-</cffunction>
