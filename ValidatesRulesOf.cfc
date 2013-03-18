@@ -3,7 +3,7 @@
 <cfset $initValidatesRulesOf()>
 
 <cffunction name="init">
-	<cfset this.version = "1.1.5,1.1.7">
+	<cfset this.version = "1.1.5,1.1.7,1.1.8">
 	
 	<cfreturn this>
 </cffunction>
@@ -213,7 +213,7 @@
 	<cfargument name="maximum" type="numeric" required="true">
 	<cfargument name="minimum" type="numeric" required="true">
 	<cfargument name="within" type="any" required="true">
-	<cfargument name="prefixLabel" type="boolean" required="true">
+	<cfargument name="prefixLabel" type="boolean" default="true">
 	<cfargument name="properties" type="struct" required="false" default="#this.properties()#">
 	<cfscript>
 		var _lenValue = Len(arguments.properties[arguments.property]);
@@ -255,46 +255,6 @@
 			addError(property=arguments.property, message=$validationErrorMessage(argumentCollection=arguments));
 		}
 		
-	</cfscript>
-</cffunction>
-
-
-<cffunction name="$validatesUniquenessOf" returntype="void" access="public" output="false">
-	<cfargument name="property" type="string" required="true">
-	<cfargument name="message" type="string" required="true">
-	<cfargument name="scope" type="string" required="false" default="">
-	<cfargument name="properties" type="struct" required="false" default="#this.properties()#">
-	<cfargument name="includeSoftDeletes" type="boolean" required="false" default="true">
-	<cfscript>
-		var loc = {};
-		loc.where = [];
-
-		// create the WHERE clause to be used in the query that checks if an identical value already exists
-		// wrap value in single quotes unless it's numeric
-		// example: "userName='Joe'"
-		ArrayAppend(loc.where, "#arguments.property#=#variables.wheels.class.adapter.$quoteValue(this[arguments.property])#");
-
-		// add scopes to the WHERE clause if passed in, this means that checks for other properties are done in the WHERE clause as well
-		// example: "userName='Joe'" becomes "userName='Joe' AND account=1" if scope is "account" for example
-		arguments.scope = $listClean(arguments.scope);
-		if (Len(arguments.scope))
-		{
-			loc.iEnd = ListLen(arguments.scope);
-			for (loc.i=1; loc.i <= loc.iEnd; loc.i++)
-			{
-				loc.property = ListGetAt(arguments.scope, loc.i);
-				ArrayAppend(loc.where, "#loc.property#=#variables.wheels.class.adapter.$quoteValue(this[loc.property])#");
-			}
-		}
-
-		// try to fetch existing object from the database
-		loc.existingObject = findOne(select=primaryKey(),where=ArrayToList(loc.where, " AND "), reload=true, includeSoftDeletes=arguments.includeSoftDeletes);
-
-		// we add an error if an object was found in the database and the current object is either not saved yet or not the same as the one in the database
-		if (IsObject(loc.existingObject) && (isNew() || loc.existingObject.key() != key($persisted=true)))
-		{
-			addError(property=arguments.property, message=$validationErrorMessage(argumentCollection=arguments));
-		}
 	</cfscript>
 </cffunction>
 
